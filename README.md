@@ -2,13 +2,19 @@
 CICD Goat setup
 
 
-Since Acloudguru is used for training and this is training, we'll be using the following setup in their (Cloud Playground)[https://learn.acloud.guru/cloud-playground/cloud-servers]:
+Since Acloudguru is used for training and this is training, we'll be using the following setup in their [Cloud Playground](https://learn.acloud.guru/cloud-playground/cloud-servers).
+
+Go to: https://learn.acloud.guru/cloud-playground/cloud-servers
+
+Click New server and use the following options
 
 ![Server setup](image.png)
 
 **Note:** You can use the large setup if you want just a little more performance.
 
 The instance will only last for 4 hours before being auto shut down, so either set it a day or two before the workshop (no more than a week before), or 20-30 minutes before the workshop starts. The server will then only be retained for two weeks.
+
+Once the server is ready, expand the details on the right side on how you can login, you can connect through the Terminal interface, or if logging in off network you can ssh directly in.
 
 ```
 sudo apt install -y python3-pip && pip3 install ansible
