@@ -17,7 +17,7 @@ Once the server is ready, expand the details on the right side on how you can lo
 Log in again after changing your password and run the following commands.
 
 ```
-sudo apt install -y python3-pip && pip3 install ansible
+sudo apt install -y python3-pip && sudo pip3 install ansible
 ```
 
 ```
