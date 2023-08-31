@@ -21,7 +21,7 @@ sudo apt install -y python3-pip && sudo pip3 install ansible
 ```
 
 ```
-curl https://raw.githubusercontent.com/lockfale/CICD-workshop/main/ansible-setup.yml
+curl -O https://raw.githubusercontent.com/lockfale/CICD-workshop/main/ansible-setup.yml
 ```
 
 ```
