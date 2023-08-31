@@ -8,9 +8,7 @@ Go to: https://learn.acloud.guru/cloud-playground/cloud-servers
 
 Click New server and use the following options
 
-![Server setup](image.png)
-
-**Note:** You can use the large setup if you want just a little more performance.
+![Server Setup](https://github.com/lockfale/CICD-workshop/assets/913856/ed3224ac-8c20-406a-ad16-ab50efdad361)
 
 The instance will only last for 4 hours before being auto shut down, so either set it a day or two before the workshop (no more than a week before), or 20-30 minutes before the workshop starts. The server will then only be retained for two weeks.
 
