@@ -100,3 +100,11 @@
       ansible.builtin.file:
         path: "/tmp/lab-setup"
         state: absent
+
+    - name: Print urls and creds
+      ansible.builtin.debug:
+        msg:
+          - "CTFd - http://{{ ansible_fqdn }}:8000 alice:alice"
+          - "Jenkins - http://{{ ansible_fqdn }}:8080 alice:alice"
+          - "Gitea - http://{{ ansible_fqdn }}:3000 thealice:thealice"
+          - "GitLab - http://{{ ansible_fqdn }}:4000 alice:alice1234"
