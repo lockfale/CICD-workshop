@@ -208,5 +208,13 @@ Go to Jenkins and you should see an automated build kicked off for the new "vers
 Look at the console output of the new build.
 
 
+### Resources
 
+[NSA/CISA Defending Continuous Integration/Continuous Delivery (CI/CD) Environments](https://media.defense.gov/2023/Jun/28/2003249466/-1/-1/0/CSI_DEFENDING_CI_ENVIRONMENTS.PDF)
+
+[NIST Strategies for the Integration of Software Supply Chain Security in DevSecOps CI/CD pipelines](https://csrc.nist.gov/pubs/sp/800/204/d/ipd)
+
+[OWASP Top 10 CICD Risks](https://owasp.org/www-project-top-10-ci-cd-security-risks/)
+
+[CI/CD GOAT](https://github.com/cider-security-research/cicd-goat/#readme)
 
